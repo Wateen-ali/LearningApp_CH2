@@ -37,32 +37,57 @@ struct MainView: View {
     }
     
     
-    var body: some View {
+    func circleColor(for date: Date) -> Color {
+        let status = viewModel.status(for: date)
 
+        if status == .freeze {
+            return .blue
+        } else if status == .learned {
+            return .orange
+        } else if Calendar.current.isDateInToday(date) {
+            return .orange
+        } else {
+            return .clear
+        }
+    }
+    
+    func circleOpacity(for date: Date) -> Double {
+        if Calendar.current.isDateInToday(date) {
+            return 1.0
+        } else {
+            return 0.3
+        }
+    }
+    
+    
+    var body: some View {
+        NavigationStack{
+        
         ZStack {
             Color.black
                 .ignoresSafeArea()
-
+            
             VStack(alignment: .leading) {
-
+                
                 HStack {
-
+                    
                     Text("Activity")
                         .font(.system(size: 36, weight: .bold))
                         .foregroundStyle(.white)
-
+                    
                     Spacer()
-
-                    Button {
+                    
+                    NavigationLink {
+                        calendarView()
                     } label: {
                         Image(systemName: "calendar")
                             .font(.system(size: 26))
                             .foregroundStyle(.white)
                             .frame(width: 44, height: 44)
                             .glassEffect(.regular.tint(Color(.black.opacity(0.8))),
-                                in: .capsule
+                                         in: .capsule
                             ) }
-
+                    
                     Button {
                     } label: {
                         Image(systemName: "pencil.and.outline")
@@ -70,22 +95,22 @@ struct MainView: View {
                             .foregroundStyle(.white)
                             .frame(width: 44, height: 44)
                             .glassEffect(.regular.tint(Color(.black.opacity(0.8))),
-                                in: .capsule
+                                         in: .capsule
                             )}
                 }
                 
-
+                
                 Text(Date(), format: .dateTime.weekday(.wide).day().month(.wide))
                     .font(.system(size: 17))
                     .foregroundStyle(.gray)
                 
                 HStack {
                     ForEach(weekDates, id: \.self) { date in
-
+                        
                         let isToday = calendar.isDateInToday(date)
-
+                        
                         VStack {
-
+                            
                             Text(date, format: .dateTime.weekday(.narrow))
                                 .font(.system(size: 14))
                                 .foregroundStyle(.white)
@@ -95,12 +120,11 @@ struct MainView: View {
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 44)
-                                .background {
-                                    if isToday {
-                                        Circle()
-                                            .fill(Color("buttons"))
-                                    }
-                                }
+                                .background(
+                                    Circle()
+                                        .fill(circleColor(for: date))
+                                        .opacity(circleOpacity(for: date))
+                                )
                         }
                         .frame(maxWidth: .infinity)
                     }
@@ -109,12 +133,12 @@ struct MainView: View {
                 
                 
                 HStack (spacing:16){
-
+                    
                     VStack(spacing: 4)  {
                         Image(systemName: "flame.fill")
                             .font(.system(size: 24))
                             .foregroundStyle(Color("buttons"))
-
+                        
                         var streakText: String {
                             let streak = viewModel.currentGoal?.streak ?? 0
                             return "\(streak) \(streak == 1 ? "day" : "days")"
@@ -122,18 +146,18 @@ struct MainView: View {
                         Text(streakText)
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(.white)
-
+                        
                         Text("Learned")
                             .font(.system(size: 12))
                             .foregroundStyle(.white)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                   // .frame(height: 102)
+                    // .frame(height: 102)
                     //.frame(width: 177)
                     .glassEffect(.regular.tint(Color(.black.opacity(0.8))), in: .rect(cornerRadius: 35))
                     
                     .shadow(color: .white, radius: 0.3)
-
+                    
                     
                     
                     
@@ -141,7 +165,7 @@ struct MainView: View {
                         Image(systemName: "snowflake")
                             .font(.system(size: 24))
                             .foregroundStyle(Color("freezeIcon"))
-
+                        
                         var freezeText: String {
                             let freeze = viewModel.currentGoal?.freezCount ?? 0
                             return "\(freeze) \(freeze == 1 ? "day" : "days")"
@@ -150,7 +174,7 @@ struct MainView: View {
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(.white)
                         
-
+                        
                         Text("Freezed")
                             .font(.system(size: 12))
                             .foregroundStyle(.white)
@@ -170,7 +194,7 @@ struct MainView: View {
                 
                 VStack{
                     Button {
-                
+                        viewModel.updateToday(status: .learned)
                     } label: {
                         Text("Log as Learned")
                             .font(.system(size: 20, weight: .semibold))
@@ -183,11 +207,12 @@ struct MainView: View {
                             .overlay {
                                 Capsule()
                                     .stroke(
-                                         Color.yellow.opacity(0.7)
+                                        Color.yellow.opacity(0.7)
                                     )
                             }
-                         
+                        
                     }
+                    .disabled(viewModel.todayStatus() == .learned)
                     .buttonStyle(.plain)
                     .padding()
                     
@@ -195,7 +220,7 @@ struct MainView: View {
                     
                     VStack{
                         Button {
-                            
+                            viewModel.updateToday(status: .freeze)
                         } label: {
                             Text("Freeze for a day")
                                 .font(.system(size: 18, weight: .medium))
@@ -208,28 +233,41 @@ struct MainView: View {
                                 .overlay {
                                     Capsule()
                                         .stroke(
-                                             Color("freezeIcon").opacity(0.7)
+                                            Color("freezeIcon").opacity(0.7)
                                         )
                                 }
-                             
+                            
                         }
+                        .disabled(
+                            viewModel.todayStatus() == .freeze ||
+                            (
+                                viewModel.todayStatus() != .freeze &&
+                                (viewModel.currentGoal?.freezCount ?? 0) >=
+                                (viewModel.currentGoal?.duration.freezeLimit ?? 0)
+                            )
+                        )
                         .buttonStyle(.plain)
                         .padding()
                         
-                        Text("0 out of 2 freezes used")}
+                        Text("\(viewModel.currentGoal?.freezCount ?? 0) out of \(viewModel.currentGoal?.duration.freezeLimit ?? 0) freezes used")
+                    }
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(.gray)
                 }
                 .frame(maxWidth: .infinity)
-               
+                
                 
             }
             .padding()
+        }}
+        .task {
+            viewModel.loadActivities()
         }
     }
 }
 
 #Preview {
-    MainView()
+ 
+        MainView()
         .environment(LearningViewModel())
 }

@@ -113,7 +113,11 @@ class LearningViewModel {
         saveActivities()
     }
     
-    
+    func status(for date: Date) -> dailyStatus? {
+        activities.first {
+            Calendar.current.isDate($0.date, inSameDayAs: date)
+        }?.status
+    }
     
     
     
