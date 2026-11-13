@@ -9,44 +9,34 @@ import Foundation
 import SwiftUI
 import HorizonCalendar
 
+
 struct calendarView: View {
+    
+       // connect us with ViewModle functions
     @Environment(LearningViewModel.self) private var viewModel
-    var months: [String] = Calendar.current.monthSymbols
+    @State private var calendarViewModel = CalendarViewModel()
+
     var currentYear: Int = Calendar.current.component(.year, from: Date())
-    let columns = Array(repeating: GridItem(.flexible()), count: 7)
     let weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
-    
-    var startDate: Date {Calendar.current.date( from: DateComponents( year: currentYear,month: 1,day: 1))!
-    }
-    
-    var endDate: Date {
-        Calendar.current.date(
-            from: DateComponents(
-                year: currentYear,
-                month: 12,
-                day: 31
-            )
-        )!
-    }
+    var startDate: Date {Calendar.current.date( from: DateComponents( year: currentYear,month: 1,day: 1))!}
+    var endDate: Date { Calendar.current.date(from: DateComponents(year: currentYear,month: 12,day: 31 ) )!}
     
     var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
-                
-          
+
                 CalendarViewRepresentable(
                     calendar: Calendar.current,
                     visibleDateRange: startDate...endDate,
                     monthsLayout: .vertical(options: VerticalMonthsLayoutOptions()),
-                    dataDependency: nil
-                )
+                    dataDependency: nil)
             
                 .dayOfWeekHeaders { month, weekdayIndex in
                     Text("\(weekdays[weekdayIndex])")
                         .font(.system(size: 16,weight: .bold))
-                        .foregroundStyle(.gray)
-                }
+                        .foregroundStyle(.gray)}
+            
                 .monthHeaders { month in
                     VStack(alignment: .leading) {
                         Divider()
@@ -56,57 +46,42 @@ struct calendarView: View {
                                .font(.headline)
                                .fontWeight(.semibold)
                                .foregroundStyle(.white)
-                        
                        }
-                    
                        .frame(maxWidth: .infinity, alignment: .leading)
-                       .padding(.leading, 11)
-                       
-                }
+                       .padding(.leading, 11) }
+            
                 .days { day in
                     
                     let date = Calendar.current.date(
                             from: DateComponents(
                                 year: day.month.year,
                                 month: day.month.month,
-                                day: day.day
-                            )
-                        )
-                    let status = date.flatMap { viewModel.status(for: $0) }
-                    let isToday = date.map { Calendar.current.isDateInToday($0) } ?? false
+                                day: day.day))
+                    
+                    let status = date.flatMap {viewModel.status(for:$0) }
+                    let isToday = date.map {Calendar.current.isDateInToday($0) } ?? false
                     
                     Text("\(day.day)")
-                        .font(.system(size: 18))
-                        .foregroundStyle(
-                            isToday ? Color.white :
-                            status == .learned ? Color.orange :
-                            status == .freeze ? Color.cyan :
-                            Color.white
-                        )
-                        .frame(width: 38, height: 38)
-                        .background {
-                            Circle()
+                        .font(.system(size: 20,weight: .semibold))
+                        .foregroundStyle(calendarViewModel.textColor(for: status))
+                        .frame(width: 40, height: 40)
+                        .background {Circle()
                                 .fill(
-                                    status == .freeze ? Color.cyan.opacity(isToday ? 1 : 0.25) :
-                                    (status == .learned || isToday) ? Color.orange.opacity(isToday ? 1 : 0.25) :
-                                    Color.clear
-                                )
-                        }
+                                  date.map {calendarViewModel.circleColor(for: $0,status: status)} ?? .clear
+                                              )}
                 }
-            
-            
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
                 .environment(\.colorScheme, .dark)
-            
-            
-        }
+       }
         .navigationTitle("Activities")
     }
-    
 }
+
 #Preview {
     calendarView()
         .environment(LearningViewModel())
-     
 }
+
+
+

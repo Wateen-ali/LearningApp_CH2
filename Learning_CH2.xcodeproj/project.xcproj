@@ -28,6 +28,7 @@
         { "path": "<PRODUCTS>/Learning_CH2.app", "id": "76AED24130A19E3F00FE5877", "type": "wrapper.application", "index": false },
       ],
     },
+    { "kind": "folder", "path": "New Folder", "target-membership": [ "Learning_CH2" ] },
   ],
   "targets": [
     {
