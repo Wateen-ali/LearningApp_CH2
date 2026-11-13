@@ -7,15 +7,7 @@
 
 import Foundation
 import SwiftData
-/*
- goal name
- goal duration
- freez
- streak
- start date
- end date
 
- */
 
 // for data that has listed values
 enum goalDuration: String, Codable {
@@ -29,6 +21,15 @@ enum goalDuration: String, Codable {
         case .month: return 8
         case .year: return 96
         }
+        
+    }
+    
+    var missedDaysLimit: Int {
+        switch self {
+        case .week: return 2
+        case .month: return 10
+        case .year: return 120
+        }
     }
 }
 
@@ -37,15 +38,17 @@ enum dailyStatus: String, Codable {
     case freeze
 }
 
+enum GoalResult {
+    case active
+    case completed
+    case failed
+}
+
 
 // models for data structure
-
-
 struct dailyActivity: Codable {
     var date: Date
     var status: dailyStatus
-
-   
 }
 
 
@@ -55,13 +58,4 @@ struct UserGoal: Codable{
     var freezCount: Int
     var streak: Int
     var startDate: Date
-    var endDate: Date
-   
-  
-    
-  
-    }
-
-
-
-
+    var endDate: Date }

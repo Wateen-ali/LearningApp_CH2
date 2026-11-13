@@ -9,16 +9,14 @@ import Foundation
 import SwiftUI
 
 struct updateGoalView: View {
+    
     @Environment(LearningViewModel.self) private var viewModel
     @Environment(\.dismiss) private var dismiss
-    
     @State private var editedGoalName = ""
     @State private var editedDuration: goalDuration = .week
     @State private var showConfirmation = false
     
     var body: some View {
-        
-        
         @Bindable var viewModel = viewModel
         
         ZStack{
@@ -26,9 +24,6 @@ struct updateGoalView: View {
                 .ignoresSafeArea()
               
         VStack {
-            
-         
-               
             Group{
                 Text("I want to learn")
                     .font(.system(size: 16))
@@ -43,113 +38,57 @@ struct updateGoalView: View {
                 Divider()
                     .background(Color.gray.opacity(0.9))
                     .padding(.bottom)
-                
-                
-              
+            
                 Text("I want to learn it in a")
                     .foregroundStyle(.white)
                     .font(.system(size: 16))
                 
                 
                 HStack {
-                    ForEach(
-                        [goalDuration.week, .month, .year],
-                        id: \.self
-                    ) { duration in
-
+                    ForEach([goalDuration.week, .month, .year],id: \.self) { duration in
                         Button {
                             editedDuration = duration
                         } label: {
                             Text(duration.rawValue.capitalized)
                                 .font(.system(size: 18))
-                                .foregroundStyle(
-                                    editedDuration == duration
+                                .foregroundStyle(editedDuration == duration
                                     ? .white
-                                    : .gray.opacity(0.6)
-                                )
+                                    : .gray.opacity(0.6))
                                 .padding(.horizontal, 22)
                                 .padding(.vertical, 14)
-                                .glassEffect(
-                                    .regular.tint(
-                                        editedDuration == duration
+                                .glassEffect(.regular.tint(editedDuration == duration
                                         ? Color("buttons")
-                                        : .black.opacity(0.8)
-                                    ),
-                                    in: .capsule
-                                )
+                                        : .white.opacity(0.001)),
+                                    in: .capsule)
                             // a border
-                                .overlay {
-                                    Capsule()
+                                .overlay {Capsule()
                                         .stroke(
                                             editedDuration == duration
                                             ? Color.yellow.opacity(0.7)
                                             : Color.white.opacity(0.0)
-                                        )
-                                }
-                        }
-                       
-                    }
+                                        )}}}
                 }//end HStack
-                
-            }//end Group
+                }//end Group
             .frame(maxWidth: .infinity, alignment: .leading)
-            
-            
-      
-            
-            
-//          
-//                Button {
-//                    viewModel.startLearning()
-//                } label: {
-//                    Text("Start Learning")
-//                        .font(.system(size: 20, weight: .semibold))
-//                        .foregroundStyle(.white)
-//                        .padding(.horizontal, 25)
-//                        .padding(.vertical, 14)
-//                        .glassEffect(
-//                            .regular.tint(Color("buttons")),
-//                            in: .capsule
-//                        )
-//                }
-//                .overlay {
-//                    Capsule()
-//                        .stroke(
-//                             Color.yellow.opacity(0.7)
-//                        )
-//                }
-             
-
-     
-            
             
         }
         .padding(.leading,10)
         .padding(.top)
-            
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity,
-            alignment: .topLeading
-        )
-            
-            
+        .frame( maxWidth: .infinity,maxHeight: .infinity, alignment: .topLeading)
         .overlay {
             if showConfirmation {
                 ZStack {
-                    Color.black.opacity(0.6)
+                    Color.black.opacity(0.7)
                         .ignoresSafeArea()
 
                     VStack(alignment: .leading, spacing: 20) {
-                        
                         VStack (alignment: .leading, spacing: 12){
                             Text("Update goal")
-                                .font(.system(size: 20))
+                                .font(.system(size: 20,weight: .semibold))
                             
                             Text("If you update now, your streak will start over.")
-                                .font(.system(size: 20))
-                            .foregroundStyle(.gray)}
-                     
+                                .font(.system(size: 19))
+                                .foregroundStyle(.gray)}
 
                         HStack {
                             Button("Dismiss") {
@@ -161,13 +100,10 @@ struct updateGoalView: View {
                             .background(.gray.opacity(0.3), in: Capsule())
 
                             Button("Update") {
-                                viewModel.replaceGoal(
-                                    name: editedGoalName,
-                                    duration: editedDuration
-                                )
+                                viewModel.replaceGoal(name: editedGoalName,duration: editedDuration)
                                 dismiss()
                             }
-                            .font(.system(size: 20))
+                            .font(.system(size: 20,weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color("buttons"), in: Capsule())
@@ -176,35 +112,29 @@ struct updateGoalView: View {
                     }
                     .foregroundStyle(.white)
                     .padding()
-                    //.frame(maxWidth: 370)
-                    .background(Color(.systemGray6).opacity(0.12),
-                                in: RoundedRectangle(cornerRadius: 30))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 30)
-                            .stroke(.gray.opacity(0.5))
-                    }
-                    .padding(30)
+                    .padding(.top,7)
+                    .glassEffect(.regular.tint( .black.opacity(0.3)),
+                                 in: .rect(cornerRadius: 30))
+                    .overlay{RoundedRectangle(cornerRadius: 30)
+                            .stroke(.gray.opacity(0.2))}
+                    .padding(35)
+                    
                 }
             }
         }
-            
+        .environment(\.colorScheme, .dark)
     }
-        .onAppear {
-            if let goal = viewModel.currentGoal {
-                editedGoalName = goal.goalName
-                editedDuration = goal.duration
-            }
-        }
-        //.navigationTitle("Learning Goal")
+
+
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
-        
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Learning Goal")
                     .font(.system(size: 20, weight: .semibold))
                     .foregroundStyle(.white)
             }
+            
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     showConfirmation = true
@@ -217,39 +147,27 @@ struct updateGoalView: View {
                         .overlay {
                             Capsule()
                                 .stroke(
-                                    Color(.yellow).opacity(0.7)
-                                )
-                        }
-                }
+                                    Color(.yellow).opacity(0.7))}}
                 .buttonStyle(.plain)
                 .glassEffect(.identity)
-               // .buttonBorderShape(.circle)
             }
             .sharedBackgroundVisibility(.hidden)
+            
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    
                    dismiss()
                 } label: {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundStyle(.white)
                         .frame(width: 48, height: 48)
-                        .glassEffect(
-                            .regular.tint(.black.opacity(0.8)
-                            ),
-                            in: .capsule
-                        )
-                        .overlay {
-                            Capsule()
-                                .stroke(
-                                    Color(.white).opacity(0.1)
-                                )
-                        }
-                }
+                        .glassEffect(.regular.tint(.black.opacity(0.8)),
+                            in: .capsule)
+                        .overlay { Capsule()
+                                .stroke(Color(.white).opacity(0.1))
+                        }}
                 .buttonStyle(.plain)
                 .glassEffect(.identity)
-               // .buttonBorderShape(.circle)
             }
             .sharedBackgroundVisibility(.hidden)
         }
