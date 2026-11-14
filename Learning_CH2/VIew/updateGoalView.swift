@@ -99,8 +99,10 @@ struct updateGoalView: View {
                             .padding()
                             .background(.gray.opacity(0.3), in: Capsule())
 
-                            Button("Update") {
-                                viewModel.replaceGoal(name: editedGoalName,duration: editedDuration)
+                            Button("Update") {viewModel.saveLearningGoal(
+                                    name: editedGoalName,
+                                    duration: editedDuration,
+                                    isEditing: true)
                                 dismiss()
                             }
                             .font(.system(size: 20,weight: .semibold))
