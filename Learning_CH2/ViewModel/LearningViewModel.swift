@@ -72,18 +72,19 @@ class LearningViewModel {
         guard let goal = currentGoal else { return nil }
 
         return activities.first {
+            //we check if the activity was today and check if its before or in the current goal in case the user edit the goal at same day while he was logged himself as learnd or freeze
             Calendar.current.isDateInToday($0.date) && $0.date >= goal.startDate
         }?.status
     }
     
-   //====================================================
+   //=====================updating the status of today===============================
     
     func updateToday(status: dailyStatus) {
         guard var goal = currentGoal else { return }
-
+        //get the last status loged
         let previousStatus = todayStatus()
 
-        // If the same button is clicked again undo the activity
+        // if the same button is clicked again undo the activity
         if previousStatus == status {
 
             if status == .learned {goal.streak = max(0, goal.streak - 1)}
@@ -116,7 +117,7 @@ class LearningViewModel {
         saveActivities()
     }
     
-    //====================================================
+    //======================get the status of specific date==============================
     
     func status(for date: Date) -> dailyStatus? {
         // If it's today, use the current goal's activity
@@ -125,46 +126,14 @@ class LearningViewModel {
         return activities.first { Calendar.current.isDate($0.date, inSameDayAs: date)}?.status
     }
     
-    //====================================================
+    //======================start a goal==============================
     
     // Start a new learning goal
-    func startLearning() {
-        loadGoal()
+    func saveLearningGoal(name: String, duration: goalDuration, isEditing: Bool = false) {
 
-        guard currentGoal == nil else {
-            print("You already have a learning goal!")
-            return
-        }
+        if !isEditing && currentGoal != nil {print("You already have a learning goal!")
+    return }
 
-        let startDate = Date()
-        let endDate: Date
-
-        switch selectedDuration {
-        case .week:
-            endDate = Calendar.current.date(byAdding: .day, value: 7, to: startDate)!
-        case .month:
-            endDate = Calendar.current.date(byAdding: .month, value: 1, to: startDate)!
-        case .year:
-            endDate = Calendar.current.date(byAdding: .year, value: 1, to: startDate)!
-        }
-
-        let goal = UserGoal(
-            goalName: goalName,
-            duration: selectedDuration,
-            freezCount: 0,
-            streak: 0,
-            startDate: startDate,
-            endDate: endDate
-        )
-
-        currentGoal = goal
-        saveGoal()
-        print("Goal saved successfully!")
-    }
-    
-    //====================================================
-    
-    func replaceGoal(name: String, duration: goalDuration) {
         let startDate = Date()
         let endDate: Date
 
@@ -176,8 +145,8 @@ class LearningViewModel {
         case .year:
             endDate = Calendar.current.date(byAdding: .year, value: 1, to: startDate)!
         }
-        
-        currentGoal = UserGoal(
+
+         currentGoal = UserGoal(
             goalName: name,
             duration: duration,
             freezCount: 0,
@@ -187,15 +156,18 @@ class LearningViewModel {
         )
 
         saveGoal()
+        print("Goal saved successfully!")
     }
-    
+
     //====================================================
     
     func checkStreakExpiration() {
         guard var goal = currentGoal else { return }
 
         let lastActivity = activities
+        //ignore activities from prevoius goal
             .filter { $0.date >= goal.startDate }
+        //get the lateset activity 
             .max { $0.date < $1.date }
 
         guard let lastActivity else { return }
@@ -221,13 +193,15 @@ class LearningViewModel {
         // The goal is still running
         if Date() < goal.endDate {
             return .active}
-
+        
+        // caculate the total numbers of days
         let totalDays = calendar.dateComponents(
             [.day],
             from: calendar.startOfDay(for: goal.startDate),
             to: calendar.startOfDay(for: goal.endDate)
         ).day ?? 0
-
+        
+        //calculate the dayes that has activity
         let recordedDays = Set(
             activities
                 .filter {$0.date >= goal.startDate && $0.date < goal.endDate}

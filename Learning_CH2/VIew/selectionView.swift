@@ -99,7 +99,7 @@ struct selectionView: View {
             VStack(spacing:12){
                 Button {
                     //calling the function from view model
-                          viewModel.startLearning()
+                    viewModel.saveLearningGoal(name: viewModel.goalName,duration: viewModel.selectedDuration)
                        } label: {
                              Text("Start Learning")
                              .font(.system(size: 20, weight: .semibold))
