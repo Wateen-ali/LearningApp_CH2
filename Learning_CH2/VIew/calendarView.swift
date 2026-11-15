@@ -15,6 +15,7 @@ struct calendarView: View {
        // connect us with ViewModle functions
     @Environment(LearningViewModel.self) private var viewModel
     @State private var calendarViewModel = CalendarViewModel()
+    @StateObject private var proxy = CalendarViewProxy()
 
     var currentYear: Int = Calendar.current.component(.year, from: Date())
     let weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
@@ -30,7 +31,9 @@ struct calendarView: View {
                     calendar: Calendar.current,
                     visibleDateRange: startDate...endDate,
                     monthsLayout: .vertical(options: VerticalMonthsLayoutOptions()),
-                    dataDependency: nil)
+                    dataDependency: nil,
+                    proxy: proxy)
+            
             
                 .dayOfWeekHeaders { month, weekdayIndex in
                     Text("\(weekdays[weekdayIndex])")
@@ -59,7 +62,7 @@ struct calendarView: View {
                                 day: day.day))
                     
                     let status = date.flatMap {viewModel.status(for:$0) }
-                    let isToday = date.map {Calendar.current.isDateInToday($0) } ?? false
+                
                     
                     Text("\(day.day)")
                         .font(.system(size: 20,weight: .semibold))
@@ -73,6 +76,13 @@ struct calendarView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
                 .environment(\.colorScheme, .dark)
+                .onAppear {
+                    proxy.scrollToDay(
+                        containing: Date(),
+                        scrollPosition: .centered,
+                        animated: false
+                    )
+                }
        }
         .navigationTitle("Activities")
     }
