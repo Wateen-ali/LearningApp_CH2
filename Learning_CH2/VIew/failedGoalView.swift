@@ -5,8 +5,6 @@
 //  Created by wateen Alrumayh on 01/06/1448 AH.
 //
 
-
-
 import Foundation
 import SwiftUI
 
@@ -14,8 +12,8 @@ struct failedGoalView: View {
     var body: some View {
   
         ZStack{
-            Color(.black)
-                .ignoresSafeArea()
+//            Color(.black)
+//                .ignoresSafeArea()
             VStack(spacing: 64){
                 VStack(spacing: 19){
                     Image(systemName: "xmark.seal.fill")
@@ -23,7 +21,7 @@ struct failedGoalView: View {
                         .font(.system(size: 40))
                     VStack(spacing: 5){
                     Text("You didn't reach your goal this time.")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .font(.system(size: 16, weight: .bold))
                     Text("Want to set another goal?")
                         .foregroundStyle(.gray)
@@ -36,26 +34,28 @@ struct failedGoalView: View {
                     Label("Set a gaol",systemImage:"pencil.and.outline")
                     
                         .font(.system(size: 18, weight: .medium))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .frame(width: 140, height: 50)
                         .glassEffect(
                             .regular.tint(Color("buttons")),
                             in: .capsule
                         )
-                    
-                    
                 }
-                
-                
-                
-                
+          
             }
-            .environment(\.colorScheme, .dark)
-            
+//            .environment(\.colorScheme, .dark)
         }
     }
 }
 
-#Preview {
+
+
+#Preview("Light Mode") {
     failedGoalView()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark Mode") {
+    failedGoalView()
+        .preferredColorScheme(.dark)
 }

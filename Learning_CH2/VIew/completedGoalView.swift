@@ -12,8 +12,7 @@ struct completedGoalView: View {
     var body: some View {
 
         ZStack{
-            Color(.black)
-                .ignoresSafeArea()
+            
             VStack(spacing: 64){
                 VStack(spacing: 19){
                     Image(systemName: "hands.and.sparkles.fill")
@@ -21,7 +20,7 @@ struct completedGoalView: View {
                         .font(.system(size: 40))
                     VStack(spacing: 5){
                     Text("Well done!")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .font(.system(size: 20, weight: .bold))
                     Text("Ready for your next goal?")
                         .foregroundStyle(.gray)
@@ -32,7 +31,7 @@ struct completedGoalView: View {
                 } label: {
                     Label("Set a goal",systemImage:"pencil.and.outline")
                         .font(.system(size: 18, weight: .medium))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .frame(width: 140, height: 50)
                         .glassEffect(
                             .regular.tint(Color("buttons")),
@@ -41,17 +40,20 @@ struct completedGoalView: View {
                     
                     
                 }
-                
-                
-                
-                
+ 
             }
             
-            .environment(\.colorScheme, .dark)
+         //   .environment(\.colorScheme, .dark)
         }
     }
 }
 
-#Preview {
+#Preview("Light Mode") {
     completedGoalView()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark Mode") {
+    completedGoalView()
+        .preferredColorScheme(.dark)
 }

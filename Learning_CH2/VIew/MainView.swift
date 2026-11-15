@@ -19,15 +19,14 @@ struct MainView: View {
         NavigationStack{
         
         ZStack {
-            Color.black
-                .ignoresSafeArea()
+//
             
             VStack(alignment: .leading) {
                 //top section
                 HStack {
                     Text("Activity")
                         .font(.system(size: 36, weight: .bold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                     
                     Spacer()
                     
@@ -36,22 +35,23 @@ struct MainView: View {
                     } label: {
                         Image(systemName: "calendar")
                             .font(.system(size: 26))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                             .frame(width: 44, height: 44)
-                            .glassEffect(.regular.tint(Color(.black.opacity(0.8))),
+                            .glassEffect(.regular.tint(Color.primary.opacity(0.01)),
                                          in: .capsule
-                            ) }
+                            )
+                        .tint(.primary)}
                     
                     NavigationLink {
                         updateGoalView()
                     } label: {
                         Image(systemName: "pencil.and.outline")
                             .font(.system(size: 26))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                             .frame(width: 44, height: 44)
-                            .glassEffect(.regular.tint(Color(.black.opacity(0.8))),
+                            .glassEffect(.regular.tint(Color.primary.opacity(0.01)),
                                          in: .capsule
-                            )}
+                            ).tint(.primary)}
                 }
                 
                 // displaying todays date
@@ -68,7 +68,7 @@ struct MainView: View {
                             // day name : SUN, Mon etc..
                             Text(date, format: .dateTime.weekday(.narrow))
                                 .font(.system(size: 14))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(.primary)
                             // the date
                             Text(date, format: .dateTime.day())
                                 .font(.system(size: 22,weight: .semibold))
@@ -100,16 +100,16 @@ struct MainView: View {
                         }
                         Text(streakText)
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                         
                         Text("Learned")
                             .font(.system(size: 12))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                     }
                      .frame(height: 102)
                     .frame(width: 177)
-                    .glassEffect(.regular.tint(Color(.white.opacity(0.001))), in: .rect(cornerRadius: 35))
-                    .shadow(color: .white, radius: 0.3)
+                    .glassEffect(.regular.tint(Color.primary.opacity(0.001)), in: .rect(cornerRadius: 35))
+                    .shadow(color: .primary, radius: 0.3)
                     
 
                     VStack(spacing: 4) {
@@ -123,18 +123,18 @@ struct MainView: View {
                         }
                         Text(freezeText)
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                         
                         
                         Text("Freezed")
                             .font(.system(size: 12))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                     }
 //                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .frame(height: 102)
                     .frame(width: 177)
-                    .glassEffect(.regular.tint(Color(.white.opacity(0.001))), in: .rect(cornerRadius: 35))
-                    .shadow(color: .white, radius: 0.3)
+                    .glassEffect(.regular.tint(Color.primary.opacity(0.001)), in: .rect(cornerRadius: 35))
+                    .shadow(color: .primary, radius: 0.3)
                     
                     
                 }
@@ -160,14 +160,14 @@ struct MainView: View {
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundStyle( viewModel.todayStatus() == .learned ?
                                                   
-                                    .white.opacity(0.5)
+                                    Color.primary.opacity(0.5)
                                     :
-                                    .white)
+                                    .primary)
                                 .frame(width: 292, height: 292)
                                 .glassEffect(
                                     .regular.tint(
                                         viewModel.todayStatus() == .learned
-                                        ? Color.white.opacity(0.001)
+                                        ? Color.primary.opacity(0.001)
                                         : Color("buttons")
                                     ),
                                     in: .circle
@@ -203,9 +203,9 @@ struct MainView: View {
                                     .foregroundStyle(
                                         viewModel.todayStatus() == .freeze ?
                                         
-                                        .white.opacity(0.5)
+                                        Color.primary.opacity(0.5)
                                         :
-                                        .white
+                                        .primary
                                     )
                                     .frame(width: 292, height: 46)
                                     .glassEffect(
@@ -247,7 +247,7 @@ struct MainView: View {
                 
             }
             .padding()
-            .environment(\.colorScheme, .dark)
+          
         }}
         .task {
             viewModel.loadActivities()
@@ -260,4 +260,11 @@ struct MainView: View {
  
         MainView()
         .environment(LearningViewModel())
+        .preferredColorScheme(.dark)
+}
+#Preview {
+ 
+        MainView()
+        .environment(LearningViewModel())
+        .preferredColorScheme(.light)
 }

@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import HorizonCalendar
 
-
 struct calendarView: View {
     
        // connect us with ViewModle functions
@@ -24,8 +23,6 @@ struct calendarView: View {
     
     var body: some View {
         ZStack {
-            Color.black
-                .ignoresSafeArea()
 
                 CalendarViewRepresentable(
                     calendar: Calendar.current,
@@ -48,7 +45,7 @@ struct calendarView: View {
                            Text("\(Calendar.current.monthSymbols[month.month - 1]) \(String(month.year))")
                                .font(.headline)
                                .fontWeight(.semibold)
-                               .foregroundStyle(.white)
+                               .foregroundStyle(.primary)
                        }
                        .frame(maxWidth: .infinity, alignment: .leading)
                        .padding(.leading, 11) }
@@ -75,7 +72,7 @@ struct calendarView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
-                .environment(\.colorScheme, .dark)
+               
                 .onAppear {
                     proxy.scrollToDay(
                         containing: Date(),
@@ -88,10 +85,15 @@ struct calendarView: View {
     }
 }
 
-#Preview {
+#Preview ("Light Mode"){
     calendarView()
         .environment(LearningViewModel())
+        .preferredColorScheme(.light)
 }
 
-
+#Preview ("Dark Mode"){
+    calendarView()
+        .environment(LearningViewModel())
+        .preferredColorScheme(.dark)
+}
 
