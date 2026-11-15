@@ -43,7 +43,7 @@ class CalendarViewModel {
         } else if status == .freeze {
             return Color("freezeIcon")
         } else {
-            return .white
+            return .primary
         }
     }
 }

@@ -20,19 +20,18 @@ struct updateGoalView: View {
         @Bindable var viewModel = viewModel
         
         ZStack{
-           Color(.black)
-                .ignoresSafeArea()
+       
               
         VStack {
             Group{
                 Text("I want to learn")
                     .font(.system(size: 16))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                 
                 TextField("",  text: $editedGoalName, prompt: Text("Swift").foregroundStyle(.gray))
                     .padding(.top)
                    
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                     .autocorrectionDisabled()
                 
                 Divider()
@@ -40,7 +39,7 @@ struct updateGoalView: View {
                     .padding(.bottom)
             
                 Text("I want to learn it in a")
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                     .font(.system(size: 16))
                 
                 
@@ -52,13 +51,13 @@ struct updateGoalView: View {
                             Text(duration.rawValue.capitalized)
                                 .font(.system(size: 18))
                                 .foregroundStyle(editedDuration == duration
-                                    ? .white
-                                    : .gray.opacity(0.6))
+                                    ? Color.primary
+                                    : Color.primary.opacity(0.4))
                                 .padding(.horizontal, 22)
                                 .padding(.vertical, 14)
                                 .glassEffect(.regular.tint(editedDuration == duration
                                         ? Color("buttons")
-                                        : .white.opacity(0.001)),
+                                        : Color.primary.opacity(0.001)),
                                     in: .capsule)
                             // a border
                                 .overlay {Capsule()
@@ -88,7 +87,7 @@ struct updateGoalView: View {
                             
                             Text("If you update now, your streak will start over.")
                                 .font(.system(size: 19))
-                                .foregroundStyle(.gray)}
+                            .foregroundStyle(.primary.opacity(0.6))}
 
                         HStack {
                             Button("Dismiss") {
@@ -97,7 +96,7 @@ struct updateGoalView: View {
                             .font(.system(size: 20))
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(.gray.opacity(0.3), in: Capsule())
+                            .background(.primary.opacity(0.3), in: Capsule())
 
                             Button("Update") {viewModel.saveLearningGoal(
                                     name: editedGoalName,
@@ -112,19 +111,19 @@ struct updateGoalView: View {
                         }
                         .buttonStyle(.plain)
                     }
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                     .padding()
                     .padding(.top,7)
-                    .glassEffect(.regular.tint( .black.opacity(0.3)),
+                    .glassEffect(.regular.tint( Color.black.opacity(0.3)),
                                  in: .rect(cornerRadius: 30))
                     .overlay{RoundedRectangle(cornerRadius: 30)
-                            .stroke(.gray.opacity(0.2))}
+                            .stroke(.primary.opacity(0.2))}
                     .padding(35)
                     
                 }
             }
         }
-        .environment(\.colorScheme, .dark)
+       
     }
 
 
@@ -134,7 +133,7 @@ struct updateGoalView: View {
             ToolbarItem(placement: .principal) {
                 Text("Learning Goal")
                     .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
             }
             
             ToolbarItem(placement: .topBarTrailing) {
@@ -143,7 +142,7 @@ struct updateGoalView: View {
                 } label: {
                     Image(systemName: "checkmark")
                         .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .frame(width: 48, height: 48)
                         .background(Color("buttons"), in: Circle())
                         .overlay {
@@ -161,12 +160,12 @@ struct updateGoalView: View {
                 } label: {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .frame(width: 48, height: 48)
-                        .glassEffect(.regular.tint(.black.opacity(0.8)),
+                        .glassEffect(.regular.tint(.primary.opacity(0.2)),
                             in: .capsule)
                         .overlay { Capsule()
-                                .stroke(Color(.white).opacity(0.1))
+                                .stroke(Color.primary.opacity(0.1))
                         }}
                 .buttonStyle(.plain)
                 .glassEffect(.identity)
@@ -181,5 +180,13 @@ struct updateGoalView: View {
     NavigationStack {
           updateGoalView()
               .environment(LearningViewModel())
+              .preferredColorScheme(.dark)
+      }
+}
+#Preview {
+    NavigationStack {
+          updateGoalView()
+              .environment(LearningViewModel())
+              .preferredColorScheme(.light)
       }
 }

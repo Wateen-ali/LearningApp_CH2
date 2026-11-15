@@ -16,8 +16,7 @@ struct selectionView: View {
         @Bindable var viewModel = viewModel
         
         ZStack{
-           Color(.black)
-                .ignoresSafeArea()
+       
               
         VStack {
             Image(systemName: "flame.fill")
@@ -28,12 +27,12 @@ struct selectionView: View {
             VStack{
                 Text("Hello **Learner**")
                 .font(.system(size: 34))
-                .foregroundStyle(.white)
+                .foregroundStyle(.primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
              
                 Text("This app will help you learn everyday!")
                 .font(.system(size: 17))
-                .foregroundStyle(.white)
+                .foregroundStyle(.primary)
                 .opacity(0.4)
                 .frame(maxWidth: .infinity, alignment: .leading)
                   }
@@ -45,7 +44,7 @@ struct selectionView: View {
             Group{
                 Text("I want to learn")
                     .font(.system(size: 16))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                 
                 TextField("",text: $viewModel.goalName, prompt: Text("Swift").foregroundStyle(.gray.opacity(0.6)))
                     .padding(.top)
@@ -57,7 +56,7 @@ struct selectionView: View {
                     .padding(.bottom)
                
                 Text("I want to learn it in a")
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                     .font(.system(size: 16))
                 
                 
@@ -71,15 +70,15 @@ struct selectionView: View {
                                      Text(duration.rawValue.capitalized)
                                        .font(.system(size: 18))
                                        .foregroundStyle(viewModel.selectedDuration == duration
-                                            ? .white
-                                            : .gray.opacity(0.6))
+                                            ? Color.primary
+                                            : Color.primary.opacity(0.4))
                                 .padding(.horizontal, 22)
                                 .padding(.vertical, 14)
                                    
                             //button color
                                 .glassEffect(.regular.tint(viewModel.selectedDuration == duration
                                         ? Color("buttons")
-                                        : .white.opacity(0.001)),
+                                        : Color.primary.opacity(0.001)),
                                     in: .capsule)
                                    
                             // a border
@@ -87,7 +86,7 @@ struct selectionView: View {
                                         .stroke(
                                             viewModel.selectedDuration == duration
                                             ? Color.yellow.opacity(0.7)
-                                            : Color.white.opacity(0.0))
+                                            : Color.primary.opacity(0.0))
                                          }}}
                        }//end HStack
                 
@@ -103,7 +102,7 @@ struct selectionView: View {
                        } label: {
                              Text("Start Learning")
                              .font(.system(size: 20, weight: .semibold))
-                             .foregroundStyle(.white)
+                             .foregroundStyle(Color.primary)
                              .padding(.horizontal, 25)
                              .padding(.vertical, 14)
                              .glassEffect(.regular.tint(Color("buttons")),in: .capsule)
@@ -111,7 +110,7 @@ struct selectionView: View {
                        .overlay {Capsule().stroke( Color.yellow.opacity(0.7))}
 
                 Text("You can edit your desire later")
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(.gray)
                     .font(.system(size: 12))
             }
             .frame(maxWidth: .infinity)
@@ -119,10 +118,18 @@ struct selectionView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .environment(\.colorScheme, .dark)
+        
     }}}
 
 #Preview {
     selectionView()
-        .environment(LearningViewModel())}
+        .environment(LearningViewModel())
+        .preferredColorScheme(.light)
+}
 
+#Preview {
+    selectionView()
+        .environment(LearningViewModel())
+        .preferredColorScheme(.dark)
+
+}
