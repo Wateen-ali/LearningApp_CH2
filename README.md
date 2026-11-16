@@ -1,8 +1,6 @@
 # Learning App
 
-**Learning App** is a learning tracker that helps users stay consistent with their learning goals, track daily progress, and build learning streaks.
-
-The app encourages users to develop a daily learning habit by recording their progress, managing freeze days, and viewing their learning history through a calendar.
+**Learning App** is an iOS app designed to help users build consistent learning habits and stay motivated. By setting personal learning goals, tracking daily progress, and maintaining learning streaks, users can develop a learning routine and work toward their goals.
 
 ## ✨ Features
 
@@ -52,9 +50,6 @@ The app encourages users to develop a daily learning habit by recording their pr
 5. Build and run the project.
 
 
-## 💡 Project Purpose
-
-Learning CH2 was developed to explore iOS app development using SwiftUI and the MVVM architectural pattern, with a focus on managing application state, organizing code, and creating an intuitive user experience.
-### developer:
+## developer:
 -**Wateen Alrumayh**
 
