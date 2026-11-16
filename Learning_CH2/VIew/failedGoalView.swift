@@ -12,8 +12,6 @@ struct failedGoalView: View {
     var body: some View {
   
         ZStack{
-//            Color(.black)
-//                .ignoresSafeArea()
             VStack(spacing: 64){
                 VStack(spacing: 19){
                     Image(systemName: "xmark.seal.fill")
@@ -43,7 +41,6 @@ struct failedGoalView: View {
                 }
           
             }
-//            .environment(\.colorScheme, .dark)
         }
     }
 }
