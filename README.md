@@ -45,10 +45,7 @@ The app encourages users to develop a daily learning habit by recording their pr
 
 ## 🚀 Getting Started
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   ```
+1. Clone the repository
 2. Open `Learning_CH2.xcodeproj` in Xcode.
 3. Allow Xcode to resolve the Swift package dependencies.
 4. Select an iOS simulator or a compatible device.
