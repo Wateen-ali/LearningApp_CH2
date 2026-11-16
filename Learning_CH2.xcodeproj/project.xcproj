@@ -10,6 +10,15 @@
       "Base",
     ],
   },
+  "packages": [
+    {
+      "kind": "remote",
+      "repository": "https://github.com/airbnb/HorizonCalendar.git",
+      "version": {
+        "up-to-next-major-version": "2.0.0",
+      },
+    },
+  ],
   "files": [
     { "kind": "folder", "path": "Learning_CH2", "target-membership": [ "Learning_CH2" ] },
     {
@@ -19,6 +28,7 @@
         { "path": "<PRODUCTS>/Learning_CH2.app", "id": "76AED24130A19E3F00FE5877", "type": "wrapper.application", "index": false },
       ],
     },
+    { "kind": "folder", "path": "New Folder", "target-membership": [ "Learning_CH2" ] },
   ],
   "targets": [
     {
@@ -31,8 +41,15 @@
         "frameworks",
         "resources",
       ],
+      "package-product-members": [
+        {
+          "package": "HorizonCalendar",
+          "product-name": "HorizonCalendar",
+          "build-phase": { "build-phase": "frameworks" },
+        },
+      ],
       "build-settings": {
-        "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+        "ASSETCATALOG_COMPILER_APPICON_NAME": "LJ_Icon",
         "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
         "CODE_SIGN_STYLE": "Automatic",
         "CURRENT_PROJECT_VERSION": "1",
@@ -44,6 +61,7 @@
         "INFOPLIST_KEY_UILaunchScreen_Generation": "YES",
         "INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad": "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight",
         "INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone": "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight",
+        "IPHONEOS_DEPLOYMENT_TARGET": "27.0",
         "LD_RUNPATH_SEARCH_PATHS": [
           "$(inherited)",
           "@executable_path/Frameworks",
