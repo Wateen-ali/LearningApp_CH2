@@ -42,8 +42,7 @@ struct completedGoalView: View {
                 }
  
             }
-            
-         //   .environment(\.colorScheme, .dark)
+
         }
     }
 }

@@ -54,11 +54,11 @@ struct MainView: View {
                             ).tint(.primary)}
                 }
                 
-                // displaying todays date
+                // MARK: - displaying todays date
                 Text(Date(), format: .dateTime.weekday(.wide).day().month(.wide))
                     .font(.system(size: 17))
                     .foregroundStyle(.gray)
-                // week calendar
+                // MARK: - week calendar
                 HStack {
                     ForEach(calendarViewModel.weekDates, id: \.self) { date in
                       
@@ -87,7 +87,7 @@ struct MainView: View {
                 }
                 .padding(.top, 12)
                 
-                // steak / freez card
+                // MARK: - steak / freez card
                 HStack (spacing:16){
                     VStack(spacing: 4)  {
                         Image(systemName: "flame.fill")
@@ -141,6 +141,7 @@ struct MainView: View {
                 .padding()
                 // bottom part
                 Spacer()
+                // MARK: - spilting the views
                 if viewModel.goalResult() == .completed {
                     completedGoalView()
 
@@ -148,9 +149,7 @@ struct MainView: View {
                     failedGoalView()
 
                 } else {
-                   
-                    
-                    
+ 
                     VStack{
                         Button {
                             viewModel.updateToday(status: .learned)

@@ -18,7 +18,7 @@ class LearningViewModel {
     var hasLoadedGoal = false
     var activities: [dailyActivity] = []
 
-    // =================load the saved goal=================
+    // MARK: -load the saved goal
     
     func loadGoal() {
         if let data = UserDefaults.standard.data(forKey: "savedGoal") {
@@ -32,7 +32,7 @@ class LearningViewModel {
         hasLoadedGoal = true
     }
 
-    // =================save the goal=================
+    // MARK: - save the goal
     
     func saveGoal() {
         guard let currentGoal = currentGoal else { return }
@@ -45,7 +45,7 @@ class LearningViewModel {
         }
     }
 
-    // =================load the Activities=================
+    // MARK: -load the Activities
     
     func loadActivities() {
         if let data = UserDefaults.standard.data(forKey: "savedActivities") {
@@ -57,7 +57,7 @@ class LearningViewModel {
             } catch {
                 print("Error loading activities: \(error)") }} }
     
-    // =================save the activities=================
+    // MARK: - save the activities
     
     func saveActivities() {
         do {
@@ -66,7 +66,7 @@ class LearningViewModel {
         } catch {
             print("Error saving activities: \(error)")} }
     
-    // =================get todays statuse=================
+    // MARK: - get todays statuse
     
     func todayStatus() -> dailyStatus? {
         guard let goal = currentGoal else { return nil }
@@ -77,7 +77,8 @@ class LearningViewModel {
         }?.status
     }
     
-   //=====================updating the status of today===============================
+    
+    // MARK: - updating the status of today
     
     func updateToday(status: dailyStatus) {
         guard var goal = currentGoal else { return }
@@ -117,7 +118,8 @@ class LearningViewModel {
         saveActivities()
     }
     
-    //======================get the status of specific date==============================
+    // MARK: - get the status of specific
+  
     
     func status(for date: Date) -> dailyStatus? {
         // If it's today, use the current goal's activity
@@ -126,7 +128,8 @@ class LearningViewModel {
         return activities.first { Calendar.current.isDate($0.date, inSameDayAs: date)}?.status
     }
     
-    //======================start a goal==============================
+    // MARK: - ===start a goal===
+   
     
     // Start a new learning goal
     func saveLearningGoal(name: String, duration: goalDuration, isEditing: Bool = false) {
@@ -159,7 +162,7 @@ class LearningViewModel {
         print("Goal saved successfully!")
     }
 
-    //====================================================
+    // MARK: - reset streak after 32 hours
     
     func checkStreakExpiration() {
         guard var goal = currentGoal else { return }
@@ -184,7 +187,7 @@ class LearningViewModel {
         }
     }
     
-    //====================================================
+    // MARK: - goal compleation Logic
     
     func goalResult() -> GoalResult {
         guard let goal = currentGoal else { return .active }
