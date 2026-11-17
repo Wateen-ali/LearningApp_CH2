@@ -1,6 +1,6 @@
-# Learning App
+# Learning Journey 
 
-**Learning App** is an iOS app designed to help users build consistent learning habits and stay motivated. By setting personal learning goals, tracking daily progress, and maintaining learning streaks, users can develop a learning routine and work toward their goals.
+**Learning Journey App** is an iOS app designed to help users build consistent learning habits and stay motivated. By setting personal learning goals, tracking daily progress, and maintaining learning streaks, users can develop a learning routine and work toward their goals.
 
 ## ✨ Features
 
