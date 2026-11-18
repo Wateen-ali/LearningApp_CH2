@@ -133,6 +133,13 @@ class LearningViewModel {
     
     // Start a new learning goal
     func saveLearningGoal(name: String, duration: goalDuration, isEditing: Bool = false) {
+        
+        let goalName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !goalName.isEmpty else {
+            print("Please enter a learning goal!")
+            return
+        }
 
         if !isEditing && currentGoal != nil {print("You already have a learning goal!")
     return }

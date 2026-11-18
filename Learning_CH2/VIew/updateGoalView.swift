@@ -151,6 +151,11 @@ struct updateGoalView: View {
                                     Color(.yellow).opacity(0.7))}}
                 .buttonStyle(.plain)
                 .glassEffect(.identity)
+                .disabled(
+                    editedGoalName
+                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                        .isEmpty
+                )
             }
             .sharedBackgroundVisibility(.hidden)
             
