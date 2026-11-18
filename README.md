@@ -43,7 +43,7 @@
 
 ## 📸 Screenshots
 
-\<p align="center">   \<img src="screenshots/first_page.png" width="200" alt="Goal Creation">   \<img src="screenshots/main_page.png" width="200" alt="Main Activity">   \<img src="Screenshots/yearly-calendar.png" width="200" alt="Yearly Calendar">   \<img src="screenshots/calendar_page.png" width="200" alt="calendar page"> \</p>
+\<p align="center">   \<img src="screenshots/first_page.png" width="200" alt="Goal Creation">   \<img src="screenshots/main_page.png" width="200" alt="Main Activity"> \<img src="screenshots/calendar_page.png" width="200" alt="calendar page"> \</p>
 
 
 ## 🚀 Getting Started
