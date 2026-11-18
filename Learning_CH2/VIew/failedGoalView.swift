@@ -29,7 +29,7 @@ struct failedGoalView: View {
                   updateGoalView()
                 } label: {
                     
-                    Label("Set a gaol",systemImage:"pencil.and.outline")
+                    Label("Set a goal",systemImage:"pencil.and.outline")
                     
                         .font(.system(size: 18, weight: .medium))
                         .foregroundStyle(.primary)

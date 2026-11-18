@@ -108,6 +108,12 @@ struct selectionView: View {
                              .glassEffect(.regular.tint(Color("buttons")),in: .capsule)
                                 }
                        .overlay {Capsule().stroke( Color.yellow.opacity(0.7))}
+                //to make sure the user enter a goal name
+                       .disabled(
+                           viewModel.goalName
+                               .trimmingCharacters(in: .whitespacesAndNewlines)
+                               .isEmpty
+                       )
 
                 Text("You can edit your desire later")
                     .foregroundStyle(.gray)
