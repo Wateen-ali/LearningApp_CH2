@@ -41,6 +41,11 @@
 4. Monitor your streak and remaining freeze days.
 5. Open the yearly calendar to review your learning history.
 
+## 📸 Screenshots
+
+\<p align="center">   \<img src="screenshots/first_page.png" width="200" alt="Goal Creation">   \<img src="screenshots/main_page.png" width="200" alt="Main Activity">   \<img src="Screenshots/yearly-calendar.png" width="200" alt="Yearly Calendar">   \<img src="screenshots/calendar_page.png" width="200" alt="calendar page"> \</p>
+
+
 ## 🚀 Getting Started
 
 1. Clone the repository
